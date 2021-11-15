@@ -782,6 +782,13 @@ FodyWeavers.xsd
 *.sln.iml
 
 ### VisualStudio Patch ###
+
+
+
+### My
+
+Bootstrap4/coFusion/dist
+
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,node,react,reactnative
