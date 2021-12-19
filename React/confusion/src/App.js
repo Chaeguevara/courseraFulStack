@@ -2,9 +2,15 @@ import logo from './logo.svg';
 import {Navbar, NavbarBrand} from 'reactstrap';
 import Menu from './components/MenuComponent';
 import './App.css';
+import {DISHES} from './shared/dishes';
+import React, {useState} from 'react';
 
 function App() {
+  
+  const [dishes, setDishes] = useState(DISHES);
+  
   return (
+    
     <div>
       <Navbar dark color="primary">
         <div className="container">
@@ -13,7 +19,7 @@ function App() {
           </NavbarBrand>
         </div>
       </Navbar>
-      <Menu />
+      <Menu dishes={dishes}/>
     </div>
   );
 }
