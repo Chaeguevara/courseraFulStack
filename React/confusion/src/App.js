@@ -1,28 +1,20 @@
-import logo from './logo.svg';
-import {Navbar, NavbarBrand} from 'reactstrap';
-import Menu from './components/MenuComponent';
+import Main from './components/MainComponent';
 import './App.css';
-import {DISHES} from './shared/dishes';
 import React, {useState} from 'react';
+import { Component } from 'react/cjs/react.production.min';
 
-function App() {
-  
-  const [dishes, setDishes] = useState(DISHES);
-  
-  return (
-    
-    <div>
-      <Navbar dark color="primary">
-        <div className="container">
-          <NavbarBrand href="/">
-            Ristorant Con Fusion
-          </NavbarBrand>
-        </div>
-      </Navbar>
-      <Menu dishes={dishes}/>
-    </div>
-  );
+class App extends Component{
+  render(){
+    return (
+      <div>
+        <Main/>
+      </div>
+    );
+  }  
+
 }
+  
+  
 
 
 export default App;
