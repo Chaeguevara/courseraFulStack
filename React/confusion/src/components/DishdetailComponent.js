@@ -1,10 +1,10 @@
 import React,{Component} from "react";
-import {Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle} from 'reactstrap';
-
+import {Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle,Breadcrumb,BreadcrumbItem} from 'reactstrap';
+import {Link, useParams} from 'react-router-dom'
    
 
-    function RenderDetail({dish}){
-        if (dish != null){
+    function RenderDish({dish}){
+        
             return(
                 <Card>
                     <CardImg width="100%" object src={dish.image} alt={dish.name} />
@@ -14,17 +14,14 @@ import {Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle} from 'reac
                     </CardBody>
                 </Card>    
             );
-        }else{
-            return(
-                <div></div>
-            );
-        }
+        
     }
 
-    function RenderComments({dish}){
-        if(dish !=null){
-            
-            const comments = dish.comments.map((comment)=>{
+    function RenderComments({comments}){
+        console.log(comments);
+        if(comments !=null){
+            const menuComment = comments.map((comment)=>{
+                console.log(comment.rating);
                 return(
                     <div key={comment.id}>
                         <div className="m-1">
@@ -42,7 +39,7 @@ import {Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle} from 'reac
                 <div className="col-12 col-md-5 m-1">
                     <h4>Comment</h4>
                     <div>
-                        {comments}
+                        {menuComment}
                     </div>
                 </div>
 
@@ -56,19 +53,44 @@ import {Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle} from 'reac
     }
 
     const DishDetail = (props) => {
-        console.log("DishDetailComponent render invoked");
+        let {dishId} = useParams();
+        if(props == null){
+            return(
+                <div></div>
+            );
+        }
+        console.log(dishId);
+        console.log(props);
+        console.log(props.dishes);
+        const dish = props.dishes.filter((dish) => dish.id === parseInt(dishId,10))[0];
+        const comment = props.comments.filter((c) => c.dishId === parseInt(dishId,10));
+        console.log(dish);
+
         return(
             <div className="container">
                 <div className="row">
+                    <Breadcrumb>
+                        <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
+                        <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>{dish.name}</h3>
+                        <hr />
+                    </div>                
+                </div>
+                <div className="row">
                     <div className="col-12 col-md-5 m-1">
-                        <RenderDetail dish = {props.dish} />
+                        <RenderDish dish={dish} />
                     </div>
-                    <RenderComments dish = {props.dish} />
+                    <div className="col-12 col-md-5 m-1">
+                        <RenderComments comments={comment} />
+                    </div>
                 </div>
             </div>
-        );
+         )
+
 
     }
-
 
 export default DishDetail;
