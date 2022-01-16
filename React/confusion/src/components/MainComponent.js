@@ -11,6 +11,7 @@ import { PROMOTIONS } from '../shared/promotions';
 import {DISHES} from '../shared/dishes';
 import {Routes, Route, Navigate, useParams} from 'react-router-dom';
 import { Nav } from 'reactstrap';
+import About from './AboutComponent';
 
 
 class Main extends Component {
@@ -64,7 +65,8 @@ class Main extends Component {
                   <Route path="/home" element={<HomePage/>} />
                   <Route exact path="/menu" element={<Menu dishes={this.state.dishes} />} /> // order matters
                   <Route path="/menu/:dishId" element={<DishDetail dishes={this.state.dishes} comments={this.state.commnets} />} />
-                  <Route exact path="/contactus" element={<Contact />} />
+                  <Route exact path="/aboutus" element={<About leaders={this.state.leaders} />}/>
+                  <Route exact path="/contactus" element={<Contact/>} />
                   <Route path="*" element={<Navigate to="/home" />}/>
               </Routes>
               <Footer/>
