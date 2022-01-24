@@ -5,13 +5,38 @@ import React, { Component } from 'react';
 import Header from './HeaderComponent';
 import DishDetail from './DishdetailComponent';
 import Footer from './FooterComponent';
-import { COMMENTS } from '../shared/comments';
-import { LEADERS } from '../shared/leaders';
-import { PROMOTIONS } from '../shared/promotions';
-import {DISHES} from '../shared/dishes';
-import {Routes, Route, Navigate, useParams} from 'react-router-dom';
+import {Routes, Route, Navigate, useParams, 
+        useLocation, useNavigate} from 'react-router-dom';
 import { Nav } from 'reactstrap';
 import About from './AboutComponent';
+import {connect} from 'react-redux';
+
+
+
+const mapStateToProps = state => {
+    return {
+        dishes: state.dishes,
+        commnets : state.commnets,
+        promotions : state.promotions,
+        leaders : state.leaders
+    }        
+}
+
+function withRouter(Component) {
+    function ComponentWithRouterProp(props) {
+      let location = useLocation();
+      let navigate = useNavigate();
+      let params = useParams();
+      return (
+        <Component
+          {...props}
+          router={{ location, navigate, params }}
+        />
+      );
+    }
+  
+    return ComponentWithRouterProp;
+  }
 
 
 class Main extends Component {
@@ -20,12 +45,7 @@ class Main extends Component {
     constructor(props){
         super(props);
 
-        this.state={
-            dishes: DISHES,
-            commnets : COMMENTS,
-            promotions : PROMOTIONS,
-            leaders : LEADERS
-        };
+      
     }
 
 
@@ -33,9 +53,9 @@ class Main extends Component {
         
         const HomePage = () =>{
             return(
-                <Home dish={this.state.dishes.filter((dish) => dish.featured)[0]}
-                promotion={this.state.promotions.filter((promo) => promo.featured)[0]}
-                leader ={this.state.leaders.filter((leader) => leader.featured)[0]} 
+                <Home dish={this.props.dishes.filter((dish) => dish.featured)[0]}
+                promotion={this.props.promotions.filter((promo) => promo.featured)[0]}
+                leader ={this.props.leaders.filter((leader) => leader.featured)[0]} 
                 />
             );
         }
@@ -51,8 +71,8 @@ class Main extends Component {
                 this.state.dishes.filter((dish) => dish.id === Number(id))[0]
             )
             return(
-                <DishDetail dish={this.state.dishes.filter((dish) => dish.id === Number(id))[0]} 
-                    commnets={this.state.commnets.filter((comment) => comment.dishId === Number(id))[0]}
+                <DishDetail dish={this.props.dishes.filter((dish) => dish.id === Number(id))[0]} 
+                    commnets={this.props.commnets.filter((comment) => comment.dishId === Number(id))[0]}
                 />
             );
         }
@@ -63,9 +83,9 @@ class Main extends Component {
               <Header />
               <Routes>
                   <Route path="/home" element={<HomePage/>} />
-                  <Route exact path="/menu" element={<Menu dishes={this.state.dishes} />} /> // order matters
-                  <Route path="/menu/:dishId" element={<DishDetail dishes={this.state.dishes} comments={this.state.commnets} />} />
-                  <Route exact path="/aboutus" element={<About leaders={this.state.leaders} />}/>
+                  <Route exact path="/menu" element={<Menu dishes={this.props.dishes} />} /> // order matters
+                  <Route path="/menu/:dishId" element={<DishDetail dishes={this.props.dishes} comments={this.props.commnets} />} />
+                  <Route exact path="/aboutus" element={<About leaders={this.props.leaders} />}/>
                   <Route exact path="/contactus" element={<Contact/>} />
                   <Route path="*" element={<Navigate to="/home" />}/>
               </Routes>
@@ -77,4 +97,4 @@ class Main extends Component {
 }
 
 
-export default Main;
+export default withRouter(connect(mapStateToProps)(Main));
