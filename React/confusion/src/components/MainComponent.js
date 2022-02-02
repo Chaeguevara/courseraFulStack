@@ -10,17 +10,21 @@ import {Routes, Route, Navigate, useParams,
 import { Nav } from 'reactstrap';
 import About from './AboutComponent';
 import {connect} from 'react-redux';
-
+import { addComment } from '../redux/ActionCreators';
 
 
 const mapStateToProps = state => {
     return {
         dishes: state.dishes,
-        commnets : state.commnets,
+        comments : state.comments,
         promotions : state.promotions,
         leaders : state.leaders
     }        
 }
+
+const mapDispatchToProps = (dispatch) => ({
+    addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment))   
+});
 
 function withRouter(Component) {
     function ComponentWithRouterProp(props) {
@@ -84,7 +88,7 @@ class Main extends Component {
               <Routes>
                   <Route path="/home" element={<HomePage/>} />
                   <Route exact path="/menu" element={<Menu dishes={this.props.dishes} />} /> // order matters
-                  <Route path="/menu/:dishId" element={<DishDetail dishes={this.props.dishes} comments={this.props.commnets} />} />
+                  <Route path="/menu/:dishId" element={<DishDetail dishes={this.props.dishes} comments={this.props.comments} addComment={this.props.addComment} />} />
                   <Route exact path="/aboutus" element={<About leaders={this.props.leaders} />}/>
                   <Route exact path="/contactus" element={<Contact/>} />
                   <Route path="*" element={<Navigate to="/home" />}/>
@@ -97,4 +101,4 @@ class Main extends Component {
 }
 
 
-export default withRouter(connect(mapStateToProps)(Main));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
