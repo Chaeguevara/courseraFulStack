@@ -9,7 +9,7 @@ import {Routes, Route, Navigate, useParams,
         useLocation, useNavigate} from 'react-router-dom';
 import About from './AboutComponent';
 import {connect} from 'react-redux';
-import { addComment, fetchDishes } from '../redux/ActionCreators';
+import { addComment, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 
 
@@ -25,7 +25,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => ({
     addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),   
     fetchDishes: () => {dispatch(fetchDishes())},
-    resetFeedbackForm: () => { dispatch(actions.reset('feedback'))}
+    resetFeedbackForm: () => { dispatch(actions.reset('feedback'))},
+    fetchComments: () => {dispatch(fetchComments())},
+    fetchPromos: () => {dispatch(fetchPromos())}
+
 });
 
 function withRouter(Component) {
@@ -57,17 +60,22 @@ class Main extends Component {
     componentDidMount(){
         this.props.fetchDishes();
         this.props.resetFeedbackForm();
+        this.props.fetchComments();
+        this.props.fetchPromos();
+
     }
 
 
     render() {
-        
+        console.log(this.props.addComment);
         const HomePage = () =>{
             return(
                 <Home dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
                 dishesLoading={this.props.dishes.isLoading}
                 dishesErrMess={this.props.dishes.errMess}
-                promotion={this.props.promotions.filter((promo) => promo.featured)[0]}
+                promotion={this.props.promotions.promotions.filter((promo) => promo.featured)[0]}
+                promosLoading={this.props.promotions.isLoading}
+                promosErrMess={this.props.promotions.errMess}
                 leader ={this.props.leaders.filter((leader) => leader.featured)[0]} 
                 />
             );
@@ -100,7 +108,9 @@ class Main extends Component {
                   <Route path="/menu/:dishId" element={<DishDetail dishes={this.props.dishes.dishes} 
                                                                    isLoading={this.props.dishes.isLoading}
                                                                    errMess={this.props.dishes.errMess}
-                                                                   comments={this.props.comments} addComment={this.props.addComment} />} />
+                                                                   comments={this.props.comments.comments} 
+                                                                   commentsErrMess={this.props.comments.errMess}
+                                                                   addComment={this.props.addComment} />} />
                   <Route exact path="/aboutus" element={<About leaders={this.props.leaders} />}/>
                   <Route exact path="/contactus" element={<Contact resetFeedbackForm={this.props.resetFeedbackForm}/>} />
                   <Route path="*" element={<Navigate to="/home" />}/>

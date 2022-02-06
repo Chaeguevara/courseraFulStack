@@ -4,6 +4,7 @@ import {Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle,Breadcrumb,
 import {Link, useParams} from 'react-router-dom'
 import {Control, LocalForm, Errors} from 'react-redux-form';
 import { Loading } from "./LoadingComponent";   
+import {baseUrl} from "../shared/baseUrl";
 
 
 const required = (val) => val && val.length;
@@ -114,7 +115,7 @@ class CommentForm extends Component {
         
             return(
                 <Card>
-                    <CardImg width="100%" object src={dish.image} alt={dish.name} />
+                    <CardImg width="100%" object src={baseUrl + dish.image} alt={dish.name} />
                     <CardBody>
                         <CardTitle>{dish.name}</CardTitle>
                         <CardText>{dish.description}</CardText>
@@ -190,8 +191,12 @@ class CommentForm extends Component {
         console.log(dishId);
         console.log(props);
         console.log(props.dishes);
+        console.log(props.comments[0].dishId);
+        console.log(props.comments);
+        console.log(props.addComment);
+
         const dish = props.dishes.filter((dish) => dish.id === parseInt(dishId,10))[0];
-        const comment = props.comments.filter((c) => c.dishId === parseInt(dishId,10));
+        const comment = props.comments[0].dishId.filter((c) => c.dishId === parseInt(dishId,10));
         console.log(comment);
         console.log(dish);
 

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Breadcrumb, BreadcrumbItem, Button,  Label,  Call, Col, Row} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import {Control, Form, Errors, actions} from 'react-redux-form';
-import { render } from '@testing-library/react';
 
 
 
