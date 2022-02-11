@@ -11,6 +11,7 @@ import About from './AboutComponent';
 import {connect} from 'react-redux';
 import { postComment, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 
 const mapStateToProps = state => {
@@ -67,7 +68,7 @@ class Main extends Component {
 
 
     render() {
-        console.log(this.props.addComment);
+        console.log(this.props);
         const HomePage = () =>{
             return(
                 <Home dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
@@ -102,19 +103,23 @@ class Main extends Component {
     
             <div>
               <Header />
-              <Routes>
-                  <Route path="/home" element={<HomePage/>} />
-                  <Route exact path="/menu" element={<Menu dishes={this.props.dishes} />} /> // order matters
-                  <Route path="/menu/:dishId" element={<DishDetail dishes={this.props.dishes.dishes} 
-                                                                   isLoading={this.props.dishes.isLoading}
-                                                                   errMess={this.props.dishes.errMess}
-                                                                   comments={this.props.comments.comments} 
-                                                                   commentsErrMess={this.props.comments.errMess}
-                                                                   postComment={this.props.postComment} />} />
-                  <Route exact path="/aboutus" element={<About leaders={this.props.leaders} />}/>
-                  <Route exact path="/contactus" element={<Contact resetFeedbackForm={this.props.resetFeedbackForm}/>} />
-                  <Route path="*" element={<Navigate to="/home" />}/>
-              </Routes>
+              <TransitionGroup>
+                <CSSTransition key={this.props.router.location.key} classNames="page" timeout={300}>
+                    <Routes location={this.props.router.location}>
+                        <Route path="/home" element={<HomePage/>} />
+                        <Route exact path="/menu" element={<Menu dishes={this.props.dishes} />} /> // order matters
+                        <Route path="/menu/:dishId" element={<DishDetail dishes={this.props.dishes.dishes} 
+                                                                        isLoading={this.props.dishes.isLoading}
+                                                                        errMess={this.props.dishes.errMess}
+                                                                        comments={this.props.comments.comments} 
+                                                                        commentsErrMess={this.props.comments.errMess}
+                                                                        postComment={this.props.postComment} />} />
+                        <Route exact path="/aboutus" element={<About leaders={this.props.leaders} />}/>
+                        <Route exact path="/contactus" element={<Contact resetFeedbackForm={this.props.resetFeedbackForm}/>} />
+                        <Route path="*" element={<Navigate to="/home" />}/>
+                    </Routes>
+                </CSSTransition>
+              </TransitionGroup>
               <Footer/>
             </div>
           );
