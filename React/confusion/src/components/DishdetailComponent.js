@@ -5,6 +5,7 @@ import {Link, useParams} from 'react-router-dom'
 import {Control, LocalForm, Errors} from 'react-redux-form';
 import { Loading } from "./LoadingComponent";   
 import {baseUrl} from "../shared/baseUrl";
+import {FadeTransform, Fade, Stagger} from 'react-animation-components';
 
 
 const required = (val) => val && val.length;
@@ -114,13 +115,19 @@ class CommentForm extends Component {
     function RenderDish({dish}){
         
             return(
-                <Card>
-                    <CardImg width="100%" object src={baseUrl + dish.image} alt={dish.name} />
-                    <CardBody>
-                        <CardTitle>{dish.name}</CardTitle>
-                        <CardText>{dish.description}</CardText>
-                    </CardBody>
-                </Card>    
+                <FadeTransform
+                    in
+                    transformProps={{
+                        exitTransform: 'scale(0.5) translate(-50%)'
+                    }}>
+                    <Card>
+                        <CardImg width="100%" object src={baseUrl + dish.image} alt={dish.name} />
+                        <CardBody>
+                            <CardTitle>{dish.name}</CardTitle>
+                            <CardText>{dish.description}</CardText>
+                        </CardBody>
+                    </Card>
+                </FadeTransform>    
             );
         
     }
@@ -128,31 +135,48 @@ class CommentForm extends Component {
     function RenderComments({comments, postComment, dishId}){
         console.log(comments);
         if(comments !=null){
-            const menuComment = comments.map((comment)=>{
-                console.log(comment.rating);
-                return(
-                    <div key={comment.id}>
-                        <div className="m-1">
-                            {comment.comment}                        
-                        </div>
-                        <div className="m-1">
-                            --{comment.author}, {new Intl.DateTimeFormat('en-US',{ year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(comment.date)))}                        
-                        </div>
-                    </div>
-                );
+            <div className="col-12 col-md-5 m-1">
+                <h4>Comments</h4>
+                <ul className="list-unstyled">
+                    {comments.map((comment) => {
+                        return (
+                            <li key={comment.id}>
+                            <p>{comment.comment}</p>
+                            <p>
+                                --{comment.author}, {new Intl.DateTimeFormat('en-US',{ year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(comment.date)))}                        
+                            </p>
+                            </li>
+                        )
+                    })}
+                </ul>
+            </div>
 
-            });
-            return(
-                <div className="col-12">
-                    <h4>Comment</h4>
-                    <div>
-                        {menuComment}
-                    </div>
-                    <CommentForm postComment={postComment}
-                        dishId={dishId}/>
-                </div>
 
-            );
+            // const menuComment = comments.map((comment)=>{
+            //     console.log(comment.rating);
+            //     return(
+            //         <div key={comment.id}>
+            //             <div className="m-1">
+            //                 {comment.comment}                        
+            //             </div>
+            //             <div className="m-1">
+            //                 --{comment.author}, {new Intl.DateTimeFormat('en-US',{ year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(comment.date)))}                        
+            //             </div>
+            //         </div>
+            //     );
+
+            // });
+            // return(
+            //     <div className="col-12">
+            //         <h4>Comment</h4>
+            //         <div>
+            //             {menuComment}
+            //         </div>
+            //         <CommentForm postComment={postComment}
+            //             dishId={dishId}/>
+            //     </div>
+
+            // );
  
         }else{
             return(
@@ -191,12 +215,11 @@ class CommentForm extends Component {
         console.log(dishId);
         console.log(props);
         console.log(props.dishes);
-        console.log(props.comments[0].dishId);
         console.log(props.comments);
         console.log(props.postComment);
 
         const dish = props.dishes.filter((dish) => dish.id === parseInt(dishId,10))[0];
-        const comment = props.comments[0].dishId.filter((c) => c.dishId === parseInt(dishId,10));
+        const comment = props.comments.filter((c) => c.dishId === parseInt(dishId,10));
         console.log(comment);
         console.log(dish);
 

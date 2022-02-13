@@ -9,7 +9,7 @@ import {Routes, Route, Navigate, useParams,
         useLocation, useNavigate} from 'react-router-dom';
 import About from './AboutComponent';
 import {connect} from 'react-redux';
-import { postComment, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
+import { postComment, fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -28,7 +28,8 @@ const mapDispatchToProps = (dispatch) => ({
     fetchDishes: () => {dispatch(fetchDishes())},
     resetFeedbackForm: () => { dispatch(actions.reset('feedback'))},
     fetchComments: () => {dispatch(fetchComments())},
-    fetchPromos: () => {dispatch(fetchPromos())}
+    fetchPromos: () => {dispatch(fetchPromos())},
+    fetchLeaders: () => {dispatch(fetchLeaders())}
 
 });
 
@@ -54,8 +55,13 @@ class Main extends Component {
     
     constructor(props){
         super(props);
+        // this.props.fetchDishes();
+        // this.props.resetFeedbackForm();
+        // this.props.fetchComments();
+        // this.props.fetchPromos();
+        // this.props.fetchLeaders();
+        console.log("constructor");
 
-      
     }
 
     componentDidMount(){
@@ -63,6 +69,8 @@ class Main extends Component {
         this.props.resetFeedbackForm();
         this.props.fetchComments();
         this.props.fetchPromos();
+        this.props.fetchLeaders();
+        console.log("Did mount");
 
     }
 
@@ -77,7 +85,10 @@ class Main extends Component {
                 promotion={this.props.promotions.promotions.filter((promo) => promo.featured)[0]}
                 promosLoading={this.props.promotions.isLoading}
                 promosErrMess={this.props.promotions.errMess}
-                leader ={this.props.leaders.filter((leader) => leader.featured)[0]} 
+                leader ={this.props.leaders.leaders.filter((leader) => leader.featured)[0]}
+                leadersLoading = {this.props.leaders.isLoading}
+                leadersErrMess = {this.props.leaders.errMess} 
+
                 />
             );
         }
@@ -114,7 +125,7 @@ class Main extends Component {
                                                                         comments={this.props.comments.comments} 
                                                                         commentsErrMess={this.props.comments.errMess}
                                                                         postComment={this.props.postComment} />} />
-                        <Route exact path="/aboutus" element={<About leaders={this.props.leaders} />}/>
+                        <Route exact path="/aboutus" element={<About leaders={this.props.leaders.leaders} />}/>
                         <Route exact path="/contactus" element={<Contact resetFeedbackForm={this.props.resetFeedbackForm}/>} />
                         <Route path="*" element={<Navigate to="/home" />}/>
                     </Routes>
