@@ -160,36 +160,6 @@ class CommentForm extends Component {
                         dishId={dishId} /></>
                  );
         }
-            
-         
-            
-
-
-            // const menuComment = comments.map((comment)=>{
-            //     console.log(comment.rating);
-            //     return(
-            //         <div key={comment.id}>
-            //             <div className="m-1">
-            //                 {comment.comment}                        
-            //             </div>
-            //             <div className="m-1">
-            //                 --{comment.author}, {new Intl.DateTimeFormat('en-US',{ year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(comment.date)))}                        
-            //             </div>
-            //         </div>
-            //     );
-
-            // });
-            // return(
-            //     <div className="col-12">
-            //         <h4>Comment</h4>
-            //         <div>
-            //             {menuComment}
-            //         </div>
-            //         <CommentForm postComment={postComment}
-            //             dishId={dishId}/>
-            //     </div>
-
-            // );
  
         else{
             return(
@@ -219,11 +189,6 @@ class CommentForm extends Component {
                 </div>
             );
         }
-        // else if (props.dish == null){
-        //     return(
-        //         <div></div>
-        //     );
-        // }
 
         console.log(dishId);
         console.log(props);

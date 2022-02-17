@@ -217,6 +217,14 @@
       "comment": "2323323",
       "date": "2022-02-10T07:33:52.674Z",
       "id": 21
+    },
+    {
+      "dishId": 1,
+      "rating": "3",
+      "author": "12323",
+      "comment": "123123",
+      "date": "2022-02-17T02:54:03.572Z",
+      "id": 22
     }
   ],
   "promotions": [
@@ -279,6 +287,17 @@
       "message": "afadsfds",
       "date": "2017-12-04T09:41:49.890Z",
       "id": 1
+    },
+    {
+      "firstname": "12313",
+      "lastname": "Chae",
+      "telnum": "2233",
+      "email": "dfso@naver.com",
+      "agree": true,
+      "contactType": "Tel.",
+      "message": "hhooo!!",
+      "date": "2022-02-17T03:23:37.322Z",
+      "id": 2
     }
   ]
 }
