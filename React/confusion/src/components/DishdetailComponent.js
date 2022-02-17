@@ -135,21 +135,34 @@ class CommentForm extends Component {
     function RenderComments({comments, postComment, dishId}){
         console.log(comments);
         if(comments !=null){
-            <div className="col-12 col-md-5 m-1">
-                <h4>Comments</h4>
-                <ul className="list-unstyled">
-                    {comments.map((comment) => {
-                        return (
-                            <li key={comment.id}>
-                            <p>{comment.comment}</p>
-                            <p>
-                                --{comment.author}, {new Intl.DateTimeFormat('en-US',{ year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(comment.date)))}                        
-                            </p>
-                            </li>
-                        )
-                    })}
-                </ul>
-            </div>
+            const menuComment = 
+                    
+                    <ul className="list-unstyled">
+                        {comments.map((comment) => {
+                            return (
+                                <Fade in>
+                                    <li key={comment.id}>
+                                        <p>{comment.comment}</p>
+                                        <p>
+                                            --{comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}
+                                        </p>
+                                    </li>
+                                </Fade>
+                            );
+                        })}
+                    </ul>
+                return(
+                    <><h4>Comment</h4><div>
+                        <Stagger in>
+                        {menuComment}
+                        </Stagger>
+                    </div><CommentForm postComment={postComment}
+                        dishId={dishId} /></>
+                 );
+        }
+            
+         
+            
 
 
             // const menuComment = comments.map((comment)=>{
@@ -178,7 +191,7 @@ class CommentForm extends Component {
 
             // );
  
-        }else{
+        else{
             return(
                 <div></div>
             );

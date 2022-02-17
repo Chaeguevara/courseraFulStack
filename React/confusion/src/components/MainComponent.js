@@ -9,7 +9,7 @@ import {Routes, Route, Navigate, useParams,
         useLocation, useNavigate} from 'react-router-dom';
 import About from './AboutComponent';
 import {connect} from 'react-redux';
-import { postComment, fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
+import { postFeedback,postComment, fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -24,7 +24,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment)),   
+    postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment)),
+    postFeedback: (firstname, lastname, telnum, email, agree, contactType, message) => dispatch(postFeedback(firstname, lastname, telnum, email, agree, contactType, message)),
     fetchDishes: () => {dispatch(fetchDishes())},
     resetFeedbackForm: () => { dispatch(actions.reset('feedback'))},
     fetchComments: () => {dispatch(fetchComments())},
@@ -126,7 +127,8 @@ class Main extends Component {
                                                                         commentsErrMess={this.props.comments.errMess}
                                                                         postComment={this.props.postComment} />} />
                         <Route exact path="/aboutus" element={<About leaders={this.props.leaders.leaders} />}/>
-                        <Route exact path="/contactus" element={<Contact resetFeedbackForm={this.props.resetFeedbackForm}/>} />
+                        <Route exact path="/contactus" element={<Contact resetFeedbackForm={this.props.resetFeedbackForm}
+                                                                            postFeedback={this.props.postFeedback}/>} />
                         <Route path="*" element={<Navigate to="/home" />}/>
                     </Routes>
                 </CSSTransition>
